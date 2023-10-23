@@ -1,0 +1,61 @@
+<.header>
+  Lista de Reservas
+  <%!-- <:actions>
+    <.link href={~p"/parties/new"}>
+      <.button>New Party</.button>
+    </.link>
+  </:actions> --%>
+</.header>
+
+<.simple_form :let={f} class="flex-row" for={@changeset} action={~p"/parties"}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <%!-- <:actions> --%>
+
+  <%!-- </:actions> --%>
+
+  <div class="grid grid-cols-2 gap-2">
+    <.input field={f[:name]} type="text" label="Nome" />
+    <.input field={f[:size]} type="number" label="Pessoas" />
+    <%!-- <input class="hidden" name="party[status]" value="0" /> --%>
+    <%!-- <.input class='hidden' field={f[:status]} value="reserva" type="text" label="Status" hidden /> --%>
+  </div>
+  <div class="">
+    <button
+      data-confirm="Confirmar nova reserva?"
+      class="p-2 text-sm font-semibold bg-green-500 rounded-lg w-fit text-zinc-50"
+    >
+      Nova Reserva
+    </button>
+  </div>
+</.simple_form>
+
+<.table id="parties" rows={@parties} row_click={&JS.navigate(~p"/parties/#{&1}")}>
+  <:col :let={party} label="Nome"><%= party.name %></:col>
+  <:col :let={party} label="Cadeiras"><%= party.size %></:col>
+  <:col :let={party} label="Status">
+    <%= if party.status == :waiting do %>
+      <span class="font-bold text-orange-400">Em espera</span>
+    <% end %>
+    <%= if party.status == :seated do %>
+      <span class="font-bold text-green-600">Mesa</span>
+    <% end %>
+    <%= if party.status == :cancelled do %>
+      <span class="font-bold text-red-500">Cancelada</span>
+    <% end %>
+  </:col>
+  <:action :let={party}>
+    <div class="sr-only">
+      <.link navigate={~p"/parties/#{party}"}>Mostrar</.link>
+    </div>
+    <%= if WaitList.Authorization.can(Pow.Plug.current_user(@conn).role) do %>
+      <.link navigate={~p"/parties/#{party}/edit"}>Editar</.link>
+    <% end %>
+  </:action>
+  <:action :let={party}>
+    <.link href={~p"/parties/#{party}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

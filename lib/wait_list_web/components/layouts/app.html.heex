@@ -1,0 +1,24 @@
+<header class="px-4 bg-green-400 sm:px-6 lg:px-8">
+  <div class="flex items-center justify-between py-3 text-sm border-b border-zinc-100">
+    <div class="flex items-center gap-4">
+      <a class="font-bold" href="/">
+        Home
+      </a>
+      <%= if Pow.Plug.current_user(@conn) do %>
+        <a class="font-bold" href="/registration/edit">
+          <%= @current_user.email %>
+        </a>
+        <.link class="font-bold" href="/session" method="delete" data-confirm="Tem certeza?">
+           Sair 
+        </.link>
+      <% end %>
+    </div>
+    <div class="flex items-center gap-4 font-semibold leading-6 text-zinc-900"></div>
+  </div>
+</header>
+<main class="px-4 py-20 sm:px-6 lg:px-8">
+  <div class="max-w-2xl mx-auto">
+    <.flash_group flash={@flash} />
+    <%= @inner_content %>
+  </div>
+</main>

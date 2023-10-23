@@ -1,0 +1,27 @@
+<.header>
+  Reserva: <span class="text-sm text-gray-600">[<%= @party.id %>]</span> <%= @party.name %>
+  <:subtitle>Informaçoes da reserva.</:subtitle>
+  <:actions>
+    <.link href={~p"/parties/#{@party}/edit"}>
+      <.button>Edit reserva</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Nome"><%= @party.name %></:item>
+  <:item title="Cadeiras"><%= @party.size %></:item>
+  <:item title="Status">
+    <%= if @party.status == :waiting do %>
+      <span>Em espera</span>
+    <% end %>
+    <%= if @party.status == :seated do %>
+      <span> Mesa</span>
+    <% end %>
+    <%= if @party.status == :cancelled do %>
+      <span>Cancelada</span>
+    <% end %>
+  </:item>
+</.list>
+
+<.back navigate={~p"/parties"}> Lista de reservas</.back>

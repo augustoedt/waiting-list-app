@@ -1,0 +1,8 @@
+<.header>
+  Editar Reserva: <span class="text-sm text-gray-600">[<%= @party.id %>]</span> <%= @party.name %>
+  <:subtitle>Este formulário é para editar as reservas no sistema.</:subtitle>
+</.header>
+
+<.party_form changeset={@changeset} action={~p"/parties/#{@party}"} />
+
+<.back navigate={~p"/parties"}>Voltar a lista</.back>

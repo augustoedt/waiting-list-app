@@ -1,0 +1,24 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, algo errado aconteceu! Por favor, verifique os erros abaixo.
+  </.error>
+  <.input field={f[:name]} type="text" label="Nome" />
+  <.input field={f[:size]} type="number" label="Cadeiras" />
+  <div phx-feedback-for="party[size]">
+    <label for="party_size" class="block text-sm font-semibold leading-6 text-zinc-800">
+      Status
+    </label>
+    <select
+      name="party[status]"
+      id="party_status"
+      class="block w-full mt-1 transition duration-150 ease-in-out rounded-md form-select sm:text-sm sm:leading-5"
+    >
+      <option value="waiting" selected={@changeset.data.status == :waiting}>Em espera</option>
+      <option value="seated" selected={@changeset.data.status == :seated}>Mesa</option>
+      <option value="cancelled" selected={@changeset.data.status == :cancelled}>Cancelado</option>
+    </select>
+  </div>
+  <:actions>
+    <.button>Salvar Reserva</.button>
+  </:actions>
+</.simple_form>
